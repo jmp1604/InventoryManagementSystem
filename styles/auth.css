@@ -26,7 +26,7 @@ body {
 
 .auth-container {
     width: 100%;
-    max-width: 420px;
+    max-width: 520px;
     padding: 20px;
 }
 
@@ -34,12 +34,12 @@ body {
     background: var(--bg-white);
     border-radius: 12px;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-    padding: 48px 40px;
+    padding: 40px 36px;
 }
 
 .logo-container {
     text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
 }
 
 .logo-icon {
@@ -50,7 +50,7 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .logo-icon i {
@@ -71,7 +71,7 @@ body {
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .form-label {
@@ -97,13 +97,22 @@ body {
 
 .form-input {
     width: 100%;
-    padding: 12px 12px 12px 38px;
+    padding: 11px 12px 11px 38px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
     font-size: 14px;
     background-color: var(--bg-light);
     color: var(--text-primary);
     transition: all 0.15s ease;
+    appearance: none;
+}
+
+.form-input select,
+select.form-input {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 38px;
 }
 
 .form-input:focus {
@@ -118,6 +127,17 @@ body {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 24px;
+}
+
+.form-row.two-columns {
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 18px;
+}
+
+.form-row.two-columns .form-group {
+    flex: 1;
+    margin-bottom: 0;
 }
 
 .checkbox-wrapper {
