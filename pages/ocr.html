@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCR Processing - Inventory System</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-chart-bar logo-icon"></i>
+                    <div class="logo-text">
+                        <h2>Inventory System</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="section-title">Navigation</div>
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="inventory.html" class="nav-item">
+                    <i class="fas fa-box"></i>
+                    <span>Inventory Management</span>
+                </a>
+                <a href="ocr.html" class="nav-item active">
+                    <i class="fas fa-file-invoice"></i>
+                    <span>OCR Processing</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 8px;">User</p>
+                <p style="font-size: 13px; font-weight: 500; margin-bottom: 12px;">Guest</p>
+                <a href="#" class="sign-out-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sign Out</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page active">
+                <div class="page-header">
+                    <h1 class="page-title">OCR Processing</h1>
+                    <p class="page-subtitle">Upload and process receipts to automatically update inventory</p>
+                </div>
+
+                <div class="upload-section">
+                    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">Upload Receipt</h3>
+                    <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Upload a receipt image for automatic OCR processing and inventory updates</p>
+                    
+                    <div class="dropzone" id="dropzone">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag and drop receipt images here, or click to select files</p>
+                        <span>Supports JPG, PNG (Max 10MB)</span>
+                    </div>
+
+                    <div id="selected-file-info" style="display: none; align-items: center; gap: 12px; margin-top: 16px; padding: 12px; background: var(--bg-gray); border-radius: 6px;">
+                        <i class="fas fa-file-image" style="color: var(--primary-color); font-size: 20px;"></i>
+                        <span id="file-name" style="flex: 1; font-weight: 500;"></span>
+                        <button id="remove-file-btn" style="padding: 6px 12px; background: var(--danger-color); color: white; border: none; border-radius: 4px; cursor: pointer;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; margin-top: 20px;">
+                        <input type="file" id="receipt-file-input" accept="image/*" style="display: none;">
+                        <button class="btn" id="choose-file-btn">
+                            <i class="fas fa-file"></i>
+                            Choose File
+                        </button>
+                        <button class="btn btn-primary" id="process-receipt-btn">
+                            <i class="fas fa-cog"></i>
+                            Process Receipt
+                        </button>
+                    </div>
+                </div>
+
+                <div style="background: var(--bg-white); border: 1px solid var(--border-color); border-radius: 8px; padding: 24px; margin-top: 32px;">
+                    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Processing History</h3>
+                    <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 24px;">View all processed receipts and their extracted data</p>
+
+                    <div id="receipts-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+                        <!-- Receipts will be populated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('receipt-file-input');
+        const chooseFileBtn = document.getElementById('choose-file-btn');
+        const processBtn = document.getElementById('process-receipt-btn');
+        const fileInfo = document.getElementById('selected-file-info');
+        const fileName = document.getElementById('file-name');
+        const removeFileBtn = document.getElementById('remove-file-btn');
+
+        let selectedFile = null;
+
+        // Dropzone click handler
+        dropzone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // Choose file button
+        chooseFileBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // File input change
+        fileInput.addEventListener('change', (e) => {
+            handleFileSelect(e.target.files[0]);
+        });
+
+        // Drag and drop handlers
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.style.borderColor = 'var(--primary-color)';
+            dropzone.style.backgroundColor = '#f9fafb';
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.style.borderColor = 'var(--border-color)';
+            dropzone.style.backgroundColor = '';
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.style.borderColor = 'var(--border-color)';
+            dropzone.style.backgroundColor = '';
+            
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                handleFileSelect(file);
+            }
+        });
+
+        function handleFileSelect(file) {
+            if (file) {
+                selectedFile = file;
+                fileName.textContent = file.name;
+                fileInfo.style.display = 'flex';
+            }
+        }
+
+        removeFileBtn.addEventListener('click', () => {
+            selectedFile = null;
+            fileInput.value = '';
+            fileInfo.style.display = 'none';
+        });
+
+        processBtn.addEventListener('click', () => {
+            if (selectedFile) {
+                alert('Processing receipt: ' + selectedFile.name);
+                // Add your OCR processing logic here
+            } else {
+                alert('Please select a file first');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management - Inventory System</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-chart-bar logo-icon"></i>
+                    <div class="logo-text">
+                        <h2>Inventory System</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="section-title">Navigation</div>
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="inventory.html" class="nav-item active">
+                    <i class="fas fa-box"></i>
+                    <span>Inventory Management</span>
+                </a>
+                <a href="ocr.html" class="nav-item">
+                    <i class="fas fa-file-invoice"></i>
+                    <span>OCR Processing</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 8px;">User</p>
+                <p style="font-size: 13px; font-weight: 500; margin-bottom: 12px;">Guest</p>
+                <a href="#" class="sign-out-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sign Out</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page active">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Inventory Management</h1>
+                        <p class="page-subtitle">Manage your stock items and monitor inventory levels</p>
+                    </div>
+                </div>
+
+                <div class="table-section">
+                    <div class="table-header">
+                        <div>
+                            <h3 class="table-title">Inventory Items</h3>
+                            <p class="table-subtitle" id="inventory-count">0 items in inventory</p>
+                        </div>
+                        <div class="table-actions">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="inventory-search" placeholder="Search items...">
+                            </div>
+                            <select id="category-filter" style="padding: 10px; border: 1px solid var(--border-color); border-radius: 6px;">
+                                <option value="">All Categories</option>
+                            </select>
+                            <select id="status-filter" style="padding: 10px; border: 1px solid var(--border-color); border-radius: 6px;">
+                                <option value="">All Status</option>
+                                <option value="in_stock">In Stock</option>
+                                <option value="low_stock">Low Stock</option>
+                                <option value="out_of_stock">Out of Stock</option>
+                            </select>
+                            <button class="btn">
+                                <i class="fas fa-download"></i>
+                                Export
+                            </button>
+                            <button class="btn btn-primary" id="add-item-btn">
+                                <i class="fas fa-plus"></i>
+                                Add Item
+                            </button>
+                        </div>
+                    </div>
+
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>SKU</th>
+                                <th>Category</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
+                                <th>Unit Price</th>
+                                <th>Total Value</th>
+                                <th>Last Updated</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventory-table-body">
+                            <!-- Products will be populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Add New Product</h2>
+                <button class="modal-close" id="close-product-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="product-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="product-name">Product Name *</label>
+                        <input type="text" id="product-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-sku">SKU/Code *</label>
+                        <input type="text" id="product-sku" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-category">Category *</label>
+                        <select id="product-category" required>
+                            <option value="">Select Category</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-quantity">Quantity *</label>
+                        <input type="number" id="product-quantity" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-price">Unit Price *</label>
+                        <input type="number" id="product-price" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-min-stock">Minimum Stock *</label>
+                        <input type="number" id="product-min-stock" min="0" value="10" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="product-description">Description</label>
+                    <textarea id="product-description" rows="3"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn" id="cancel-product-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Modal handling
+        const modal = document.getElementById('product-modal');
+        const addBtn = document.getElementById('add-item-btn');
+        const closeBtn = document.getElementById('close-product-modal');
+        const cancelBtn = document.getElementById('cancel-product-btn');
+
+        addBtn.addEventListener('click', () => {
+            modal.classList.add('active');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

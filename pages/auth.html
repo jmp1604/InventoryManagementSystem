@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Inventory Management System</title>
+    <link rel="stylesheet" href="../styles/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="login-page" class="page active">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h1 class="auth-title">Welcome Back</h1>
+                    <p class="auth-subtitle">Sign in to your Inventory Management System account</p>
+                </div>
+
+                <form id="login-form">
+                    <div class="form-group">
+                        <label class="form-label" for="login-email">Email</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input 
+                                type="email" 
+                                id="login-email" 
+                                class="form-input" 
+                                placeholder="you@example.com"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="login-password">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input 
+                                type="password" 
+                                id="login-password" 
+                                class="form-input" 
+                                placeholder="••••••••"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="remember-me">
+                            <label for="remember-me">Remember me</label>
+                        </div>
+                        <a href="#" class="link">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Sign In</button>
+                </form>
+
+                <div class="auth-footer">
+                    Don't have an account? <a href="#" class="link" id="show-signup">Sign up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="signup-page" class="page">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h1 class="auth-title">Create Account</h1>
+                    <p class="auth-subtitle">Sign up to start managing your inventory</p>
+                </div>
+
+                <form id="signup-form">
+                    <div class="form-group">
+                        <label class="form-label" for="signup-name">Full Name</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user input-icon"></i>
+                            <input 
+                                type="text" 
+                                id="signup-name" 
+                                class="form-input" 
+                                placeholder="John Doe"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="signup-email">Email</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input 
+                                type="email" 
+                                id="signup-email" 
+                                class="form-input" 
+                                placeholder="you@example.com"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="signup-password">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input 
+                                type="password" 
+                                id="signup-password" 
+                                class="form-input" 
+                                placeholder="••••••••"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="signup-confirm-password">Confirm Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input 
+                                type="password" 
+                                id="signup-confirm-password" 
+                                class="form-input" 
+                                placeholder="••••••••"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Create Account</button>
+                </form>
+
+                <div class="auth-footer">
+                    Already have an account? <a href="#" class="link" id="show-login">Sign in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="help-button">
+        <i class="fas fa-question" style="font-size: 20px;"></i>
+    </button>
+
+    <script>
+        const loginPage = document.getElementById('login-page');
+        const signupPage = document.getElementById('signup-page');
+        const showSignupBtn = document.getElementById('show-signup');
+        const showLoginBtn = document.getElementById('show-login');
+
+        showSignupBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginPage.classList.remove('active');
+            signupPage.classList.add('active');
+        });
+
+        showLoginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupPage.classList.remove('active');
+            loginPage.classList.add('active');
+        });
+
+        // Login form submission
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Here you would normally validate and send to backend
+            console.log('Login:', { email, password });
+            
+            // Redirect to dashboard
+            window.location.href = 'dashboard.html';
+        });
+
+        // Signup form submission
+        document.getElementById('signup-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            // Here you would normally validate and send to backend
+            console.log('Signup:', { name, email, password });
+            
+            // Redirect to dashboard
+            window.location.href = 'dashboard.html';
+        });
+    </script>
+</body>
+</html>

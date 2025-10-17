@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Inventory System</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-chart-bar logo-icon"></i>
+                    <div class="logo-text">
+                        <h2>Inventory System</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="section-title">Navigation</div>
+                <a href="dashboard.html" class="nav-item active">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="inventory.html" class="nav-item">
+                    <i class="fas fa-box"></i>
+                    <span>Inventory Management</span>
+                </a>
+                <a href="ocr.html" class="nav-item">
+                    <i class="fas fa-file-invoice"></i>
+                    <span>OCR Processing</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 8px;">User</p>
+                <p style="font-size: 13px; font-weight: 500; margin-bottom: 12px;">Guest</p>
+                <a href="#" class="sign-out-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sign Out</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page active">
+                <div class="page-header">
+                    <h1 class="page-title">Dashboard</h1>
+                    <p class="page-subtitle">Sales statistics, trends, and stock forecasting</p>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-title">Total Products</div>
+                            <div class="stat-icon">
+                                <i class="fas fa-box"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="total-products">0</div>
+                        <div class="stat-change neutral">
+                            <span>Total inventory items</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-title">In Stock</div>
+                            <div class="stat-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="in-stock">0</div>
+                        <div class="stat-change positive">
+                            <span>Items above minimum</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-title">Low Stock</div>
+                            <div class="stat-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="low-stock">0</div>
+                        <div class="stat-change negative">
+                            <span>Items need reordering</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-title">Total Value</div>
+                            <div class="stat-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="total-value">$0.00</div>
+                        <div class="stat-change neutral">
+                            <span>Current inventory value</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Sales Trends & Forecast</h3>
+                            <p class="chart-subtitle">Monthly sales performance with AI-powered forecasting</p>
+                        </div>
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-line" style="font-size: 48px;"></i>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Sales by Category</h3>
+                            <p class="chart-subtitle">Revenue distribution across product categories</p>
+                        </div>
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-bar" style="font-size: 48px;"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Items Sold Trend</h3>
+                            <p class="chart-subtitle">Number of items sold over time</p>
+                        </div>
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-area" style="font-size: 48px;"></i>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Recent Activity</h3>
+                            <p class="chart-subtitle">Latest inventory updates</p>
+                        </div>
+                        <div id="recent-activity" style="padding: 20px;">
+                            <!-- Activity items will be populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
