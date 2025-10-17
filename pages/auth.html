@@ -9,6 +9,10 @@
 </head>
 <body>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
+    <script src="../scripts/config.js"></script>
+    <script src="../scripts/util.js"></script>
+
     <div id="login-page" class="page active">
         <div class="auth-container">
             <div class="auth-card">
@@ -79,17 +83,59 @@
                 </div>
 
                 <form id="signup-form">
-                    <div class="form-group">
-                        <label class="form-label" for="signup-name">Full Name</label>
-                        <div class="input-wrapper">
-                            <i class="fas fa-user input-icon"></i>
-                            <input 
-                                type="text" 
-                                id="signup-name" 
-                                class="form-input" 
-                                placeholder="John Doe"
-                                required
-                            >
+                    <div class="form-row two-columns">
+                        <div class="form-group">
+                            <label class="form-label" for="signup-first-name">First Name</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user input-icon"></i>
+                                <input
+                                    type="text"
+                                    id="signup-first-name"
+                                    class="form-input"
+                                    placeholder="John"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="signup-last-name">Last Name</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user input-icon"></i>
+                                <input
+                                    type="text"
+                                    id="signup-last-name"
+                                    class="form-input"
+                                    placeholder="Doe"
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row two-columns">
+                        <div class="form-group">
+                            <label class="form-label" for="signup-phone">Phone Number</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-phone input-icon"></i>
+                                <input
+                                    type="tel"
+                                    id="signup-phone"
+                                    class="form-input"
+                                    placeholder="+1 555 555 5555"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="signup-role">Role</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user-shield input-icon"></i>
+                                <select id="signup-role" class="form-input">
+                                    <option value="user" selected>User</option>
+                                    <option value="manager">Manager</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
@@ -166,39 +212,8 @@
             signupPage.classList.remove('active');
             loginPage.classList.add('active');
         });
-
-        // Login form submission
-        document.getElementById('login-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            
-            // Here you would normally validate and send to backend
-            console.log('Login:', { email, password });
-            
-            // Redirect to dashboard
-            window.location.href = 'dashboard.html';
-        });
-
-        // Signup form submission
-        document.getElementById('signup-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('signup-name').value;
-            const email = document.getElementById('signup-email').value;
-            const password = document.getElementById('signup-password').value;
-            const confirmPassword = document.getElementById('signup-confirm-password').value;
-            
-            if (password !== confirmPassword) {
-                alert('Passwords do not match!');
-                return;
-            }
-            
-            // Here you would normally validate and send to backend
-            console.log('Signup:', { name, email, password });
-            
-            // Redirect to dashboard
-            window.location.href = 'dashboard.html';
-        });
     </script>
+
+    <script src="../scripts/auth.js"></script>
 </body>
 </html>
