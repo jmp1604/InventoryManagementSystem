@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory Management - Inventory System</title>
     <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/modal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -160,35 +161,8 @@
         </div>
     </div>
 
-    <script>
-        // Modal handling
-        const modal = document.getElementById('product-modal');
-        const addBtn = document.getElementById('add-item-btn');
-        const closeBtn = document.getElementById('close-product-modal');
-        const cancelBtn = document.getElementById('cancel-product-btn');
-
-        addBtn.addEventListener('click', () => {
-            modal.classList.add('active');
-        });
-
-        closeBtn.addEventListener('click', () => {
-            modal.classList.remove('active');
-        });
-
-        cancelBtn.addEventListener('click', () => {
-            modal.classList.remove('active');
-        });
-
-        // Close modal when clicking outside
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.remove('active');
-            }
-        });
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
     <script src="../scripts/config.js"></script>
-
     <script src="../scripts/util.js"></script>
     <script src="../scripts/inventory.js"></script>
 </body>
