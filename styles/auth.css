@@ -95,9 +95,28 @@ body {
     font-size: 14px;
 }
 
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 14px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.password-toggle:hover {
+    color: var(--primary-color);
+}
+
+.password-toggle.show {
+    color: var(--primary-color);
+}
+
 .form-input {
     width: 100%;
-    padding: 11px 12px 11px 38px;
+    padding: 11px 38px 11px 38px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
     font-size: 14px;
