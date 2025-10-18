@@ -1,7 +1,3 @@
-// Utility Functions
-// Include this file in all HTML pages
-
-// Format currency
 function formatCurrency(amount) {
     return new Intl.NumberFormat('en-US', {
         style: 'currency',

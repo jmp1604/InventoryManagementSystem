@@ -1,6 +1,3 @@
-// Inventory Management Handler
-// Add this script to inventory.html
-
 let currentEditingProductId = null;
 
 document.addEventListener('DOMContentLoaded', async () => {

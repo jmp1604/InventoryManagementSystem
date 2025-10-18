@@ -1,6 +1,3 @@
-// Dashboard Handler
-// Add this script to dashboard.html
-
 document.addEventListener('DOMContentLoaded', async () => {
     // Check authentication
     const session = await window.authHelpers.requireAuth();

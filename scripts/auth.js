@@ -1,7 +1,3 @@
-// Authentication Handler
-// Add this script to auth.html
-
-// Check if already logged in
 document.addEventListener('DOMContentLoaded', async () => {
     const session = await window.authHelpers.checkAuth();
     if (session) {

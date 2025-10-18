@@ -1,6 +1,3 @@
-// OCR Processing Handler with Tesseract.js
-// Add this script to ocr.html
-
 document.addEventListener('DOMContentLoaded', async () => {
     // Check authentication
     const session = await window.authHelpers.requireAuth();
