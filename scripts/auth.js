@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Login form submission
 document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -22,7 +21,6 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
         
         if (error) throw error;
         
-        // Get or create user record in users table
         const { data: userData, error: userError } = await supabaseClient
             .from('users')
             .select('*')
@@ -33,7 +31,6 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
             console.error('Error fetching user:', userError);
         }
         
-        // Update last login
         if (userData) {
             await supabaseClient
                 .from('users')
@@ -41,7 +38,6 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
                 .eq('user_id', userData.user_id);
         }
         
-        // Redirect to dashboard
         window.location.href = 'dashboard.html';
         
     } catch (error) {
@@ -50,7 +46,6 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     }
 });
 
-// Signup form submission
 document.getElementById('signup-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -62,32 +57,27 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
     const password = document.getElementById('signup-password').value;
     const confirmPassword = document.getElementById('signup-confirm-password').value;
     
-    // Validate required fields
     if (!firstName) {
         alert('Please enter your first name');
         return;
     }
 
-    // Basic phone validation (optional)
     if (phone && !/^\+?[0-9 ()-]{7,20}$/.test(phone)) {
         alert('Please enter a valid phone number');
         return;
     }
 
-    // Validate passwords match
     if (password !== confirmPassword) {
         alert('Passwords do not match!');
         return;
     }
     
-    // Validate password strength
     if (password.length < 6) {
         alert('Password must be at least 6 characters long');
         return;
     }
     
     try {
-        // Sign up with Supabase Auth
         const { data: authData, error: authError } = await supabaseClient.auth.signUp({
             email,
             password,
@@ -102,7 +92,6 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
         
         if (authError) throw authError;
         
-        // Create user record in users table
         const { error: insertError } = await supabaseClient
             .from('users')
             .insert([{
@@ -120,8 +109,7 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
         }
         
         alert('Account created successfully! Please check your email for verification.');
-        
-        // Redirect to dashboard
+
         window.location.href = 'dashboard.html';
         
     } catch (error) {
