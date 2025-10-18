@@ -1,4 +1,27 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    const params = new URLSearchParams(window.location.search);
+    const accessToken = params.get('access_token');
+    const type = params.get('type');
+
+    if (type === 'signup' && accessToken) {
+        try {
+            const { data, error } = await supabaseClient.auth.setSession({
+                access_token: accessToken,
+                refresh_token: params.get('refresh_token')
+            });
+            
+            if (error) throw error;
+            
+            alert('Email confirmed successfully!');
+            window.location.href = 'dashboard.html';
+            return;
+        } catch (error) {
+            console.error('Error confirming email:', error);
+            alert('Error confirming email: ' + error.message);
+        }
+    }
+    
+    // Check if user is already logged in
     const session = await window.authHelpers.checkAuth();
     if (session) {
         window.location.href = 'dashboard.html';
@@ -20,6 +43,13 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
         });
         
         if (error) throw error;
+        
+        // Check if email is confirmed
+        if (!data.user.email_confirmed_at) {
+            alert('Please confirm your email before logging in. Check your inbox for the confirmation link.');
+            await supabaseClient.auth.signOut();
+            return;
+        }
         
         const { data: userData, error: userError } = await supabaseClient
             .from('users')
@@ -86,32 +116,35 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
                     full_name: (firstName + ' ' + lastName).trim(),
                     phone: phone || null,
                     role: role
-                }
+                },
+                // This is the URL Supabase will redirect to after email confirmation
+                emailRedirectTo: window.location.origin + '/pages/auth.html'
             }
         });
         
         if (authError) throw authError;
         
-        const { error: insertError } = await supabaseClient
-            .from('users')
-            .insert([{
-                user_id: authData.user.id,
-                first_name: firstName,
-                last_name: lastName,
-                email: email,
-                phone: phone || null,
-                role: role || 'user',
-                is_active: true
-            }]);
-        
-        if (insertError) {
-            console.error('Error creating user record:', insertError);
+        // Only create user record if signup was successful
+        if (authData.user) {
+            const { error: insertError } = await supabaseClient
+                .from('users')
+                .insert([{
+                    user_id: authData.user.id,
+                    first_name: firstName,
+                    last_name: lastName,
+                    email: email,
+                    phone: phone || null,
+                    role: role || 'user',
+                    is_active: true
+                }]);
+            
+            if (insertError) {
+                console.error('Error creating user record:', insertError);
+            }
         }
         
-        alert('Account created successfully! Please check your email for verification.');
+        alert('Account created successfully! Please check your email for a confirmation link. You must confirm your email before logging in.');
 
-        window.location.href = 'dashboard.html';
-        
     } catch (error) {
         console.error('Signup error:', error);
         alert('Signup failed: ' + error.message);
