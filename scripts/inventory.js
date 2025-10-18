@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 // Load categories for filter and form
 async function loadCategories() {
     try {
-        const { data: categories } = await supabaseClient
+        const { data: categories } = await supabase
             .from('categories')
             .select('*')
             .order('category_name');
@@ -42,23 +42,10 @@ async function loadCategories() {
 // Load inventory items
 async function loadInventory(filters = {}) {
     try {
-        let query = supabaseClient
+        console.log('Starting inventory load...');
+        let query = supabase
             .from('products')
-            .select(`
-                product_id,
-                product_name,
-                sku,
-                category_id,
-                unit_price,
-                description,
-                updated_at,
-                category:categories(category_name),
-                inventory:inventory_stock(
-                    quantity_on_hand,
-                    quantity_available,
-                    last_restock_date
-                )
-            `)
+            .select('*')
             .order('product_name');
         
         // Apply filters
@@ -70,9 +57,15 @@ async function loadInventory(filters = {}) {
             query = query.or(`product_name.ilike.%${filters.search}%,sku.ilike.%${filters.search}%`);
         }
         
+        console.log('Executing query...');
         const { data: products, error } = await query;
         
-        if (error) throw error;
+        if (error) {
+            console.error('Supabase Query Error:', error);
+            throw error;
+        }
+        
+        console.log('Query results:', products);
         
         // Apply status filter
         let filteredProducts = products || [];
@@ -200,6 +193,16 @@ function setupEventListeners() {
         document.getElementById('modal-title').textContent = 'Add New Product';
         document.getElementById('product-form').reset();
         document.getElementById('product-modal').classList.add('active');
+    });
+
+    // Close modal button
+    document.getElementById('close-product-modal').addEventListener('click', () => {
+        document.getElementById('product-modal').classList.remove('active');
+    });
+
+    // Cancel button
+    document.getElementById('cancel-product-btn').addEventListener('click', () => {
+        document.getElementById('product-modal').classList.remove('active');
     });
 }
 

@@ -48,7 +48,7 @@ async function loadDashboardStats() {
         document.getElementById('total-products').textContent = totalProducts || 0;
         document.getElementById('in-stock').textContent = inStock;
         document.getElementById('low-stock').textContent = lowStock;
-        document.getElementById('total-value').textContent = `$${totalValue.toFixed(2)}`;
+        document.getElementById('total-value').textContent = `₱${totalValue.toFixed(2)}`;
         
     } catch (error) {
         console.error('Error loading dashboard stats:', error);

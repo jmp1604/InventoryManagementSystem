@@ -351,7 +351,7 @@ function showConfirmationDialog(receiptId, extractedData, receiptType) {
                     </div>
                     <div style="display: flex; justify-content: space-between;">
                         <strong>Total Amount:</strong>
-                        <span style="font-size: 18px; font-weight: 600;">$${extractedData.totalAmount.toFixed(2)}</span>
+                        <span style="font-size: 18px; font-weight: 600;">₱${extractedData.totalAmount.toFixed(2)}</span>
                     </div>
                 </div>
                 
@@ -403,7 +403,7 @@ function showConfirmationDialog(receiptId, extractedData, receiptType) {
                                                 style="width: 100px; padding: 6px; border: 1px solid var(--border-color); border-radius: 4px; text-align: right; font-size: 13px;">
                                         </td>
                                         <td style="padding: 10px; text-align: right;">
-                                            <span id="item-total-${index}" style="font-weight: 500;">$${(item.quantity * item.price).toFixed(2)}</span>
+                                            <span id="item-total-${index}" style="font-weight: 500;">₱${(item.quantity * item.price).toFixed(2)}</span>
                                         </td>
                                     </tr>
                                 `).join('')}
