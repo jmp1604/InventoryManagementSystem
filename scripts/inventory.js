@@ -134,8 +134,8 @@ function displayInventory(products) {
                 <td>${product.category?.category_name || 'Uncategorized'}</td>
                 <td>${quantity}</td>
                 <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-                <td>$${(product.unit_price || 0).toFixed(2)}</td>
-                <td>$${totalValue.toFixed(2)}</td>
+                <td>${formatCurrency(product.unit_price || 0)}</td>
+                <td>${formatCurrency(totalValue)}</td>
                 <td>${lastUpdated}</td>
                 <td>
                     <div class="action-btns">

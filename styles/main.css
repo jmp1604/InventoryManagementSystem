@@ -97,7 +97,25 @@
             padding: 0 8px;
         }
 
-        .nav-item {
+        .sidebar-footer {
+    padding: 16px;
+    margin-top: auto;
+    border-top: 1px solid var(--border-color);
+}
+
+.sidebar-footer p.user-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.sidebar-footer p.user-name {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.nav-item {
             display: flex;
             align-items: center;
             gap: 12px;
